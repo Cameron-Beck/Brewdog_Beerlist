@@ -4,7 +4,12 @@
     <beer-detail :beer = "selectedBeer"> </beer-detail>
     <div class="favourtie-container">
       <h2>you're favorites:</h2>
-      <li v-for="(beer, index) in favorites" :beer ="beer">{{beer}}</li>
+        <div v-for="(beer, index) in filtered" :beer ="beer">
+        <li>{{beer}}</li>
+          <button v-on:click="handleDelete(beer)"type="button" name="button">delete</button>
+        </div>
+
+
       <!-- <p>{{favorites}}</p> -->
     </div>
   </div>
@@ -13,6 +18,7 @@
 <script>
 import BeerDetail from "./components/BeerDetail.vue"
 import BeerList from "./components/BeerList.vue"
+import SingleBeer from "./components/SingleBeer.vue"
 
 import {eventBus} from "./main.js"
 export default {
@@ -21,20 +27,33 @@ export default {
     return {
       beers: [],
       selectedBeer: null,
-      favorites: []
+      favorites: [],
+      beerToRemove: ""
+      // filteredFavs: []
     }
   },
   mounted(){
     fetch("https://api.punkapi.com/v2/beers")
     .then(result => result.json())
     .then(beers => this.beers = beers)
+    eventBus.$on("beer-favorite", beer => {this.favorites.push(beer['name'])})
 
     eventBus.$on("beer-selected", beer => {this.selectedBeer = beer})
-    eventBus.$on("beer-favorite", beer => {this.favorites.push(beer)})
+  },
+  computed:{
+    filtered(){
+      return this.favorites.filter((value, index, self) => self.indexOf(value) === index)
+      }
   },
   components: {
     "beer-list": BeerList,
-    "beer-detail": BeerDetail
+    "beer-detail": BeerDetail,
+    "single-beer": SingleBeer
+  },
+  methods:{
+    handleDelete(beer){
+      this.favorites = this.favorites.filter( b => b!== beer)
+    }
   }
 }
 </script>
@@ -43,5 +62,7 @@ export default {
  .main-container{
    display: flex;
    justify-content: space-between;
+   width: 70%;
+
  }
 </style>
