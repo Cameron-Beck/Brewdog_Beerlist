@@ -2,6 +2,11 @@
   <div class="main-container">
     <beer-list :beers = "beers">  </beer-list>
     <beer-detail :beer = "selectedBeer"> </beer-detail>
+    <div class="favourtie-container">
+      <h2>you're favorites:</h2>
+      <li v-for="(beer, index) in favorites" :beer ="beer">{{beer}}</li>
+      <!-- <p>{{favorites}}</p> -->
+    </div>
   </div>
 </template>
 
@@ -15,7 +20,8 @@ export default {
   data(){
     return {
       beers: [],
-      selectedBeer: null
+      selectedBeer: null,
+      favorites: []
     }
   },
   mounted(){
@@ -24,6 +30,7 @@ export default {
     .then(beers => this.beers = beers)
 
     eventBus.$on("beer-selected", beer => {this.selectedBeer = beer})
+    eventBus.$on("beer-favorite", beer => {this.favorites.push(beer)})
   },
   components: {
     "beer-list": BeerList,

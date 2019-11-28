@@ -4,7 +4,7 @@
     <p>Description: {{beer.description}}</p>
     <p>tagline: {{beer.tagline}}</p>
     <p>ABV: {{beer.abv}}</p>
-    <img :src="beer.image_url" alt="">
+    <img :src="beer.image_url" alt=""    height="300" >
 
   </div>
 </template>
@@ -20,4 +20,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
 </style>
