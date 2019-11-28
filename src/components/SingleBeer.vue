@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
   <li v-on:click="handleClick" :value="beer">{{beer.name}}</li>
-  <button v-on:click="handleFavouriteAdd" :value="beer">Add to favourites</button>
+  <button  class="add-favorite" v-on:click="handleFavouriteAdd" :value="beer">Add to favourites</button>
   </div>
 </template>
 
@@ -24,4 +24,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.add-favorite{
+  display: block;
+  width: 70px;
+  height: 30px;
+  
+}
 </style>
